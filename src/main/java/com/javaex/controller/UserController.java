@@ -117,10 +117,12 @@ public class UserController extends HttpServlet {
 
 				// db에 저장
 				userDao.updateUser(userVo);
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", userVo);
 
-				WebUtil.redirect(request, response, "/mysite3/user?action=logout");
-
-
+				WebUtil.redirect(request, response, "/mysite3/main");
+				
 		} else {
 			System.out.println("action값 확인하세여");
 		}
