@@ -1,10 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="../../assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="../../assets/css/user.css" rel="stylesheet" type="text/css">
+<link href="/mysite3/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="/mysite3/assets/css/user.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -68,18 +71,18 @@
 	
 				<div id="user">
 					<div id="loginForm">
-						<form action="" method="">
+						<form action="/mysite3/user" method="get">
 	
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<input type="text" id="input-uid" name="" value="" placeholder="아이디를 입력하세요">
+								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 							</div>
 	
 							<!-- 비밀번호 -->
 							<div class="form-group">
 								<label class="form-text" for="input-pass">비밀번호</label> 
-								<input type="text" id="input-pass" name="" value="" placeholder="비밀번호를 입력하세요"	>
+								<input type="text" id="input-pass" name="pw" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
 	
 							
@@ -87,7 +90,7 @@
 							<div class="button-area">
 								<button type="submit" id="btn-submit">로그인</button>
 							</div>
-							
+							<input type="hidden" name="action" value="login">
 						</form>
 					</div>
 					<!-- //loginForm -->
@@ -100,7 +103,7 @@
 		<!-- //container  -->
 
 		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
+			Copyright ⓒ 2020 유영수. All right reserved
 		</div>
 		<!-- //footer -->
 

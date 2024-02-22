@@ -12,7 +12,19 @@ public class UserVo {
 		super();
 	}
 	
+	public UserVo(String id, String pw) {
+		super();
+		this.id = id;
+		this.pw = pw;
+	}
 	
+
+	public UserVo(int no, String name) {
+		super();
+		this.no = no;
+		this.name = name;
+	}
+
 	public UserVo(String id, String pw, String name, String gender) {
 		super();
 		this.id = id;

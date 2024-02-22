@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.javaex.vo.PersonVo;
 import com.javaex.vo.UserVo;
 
 public class UserDao {
@@ -21,8 +22,7 @@ public class UserDao {
 	private String url = "jdbc:mysql://localhost:3306/web_db";
 	private String id = "web";
 	private String pw = "web";
-	
-	
+
 	// 메소드- 일반
 
 	private void getConnection() {
@@ -41,31 +41,30 @@ public class UserDao {
 	} // getConnection()끝
 
 	private void close() {
-			// 5. 자원정리
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
+		// 5. 자원정리
+		try {
+			if (rs != null) {
+				rs.close();
 			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
 	} // getConnection()끝
 
-	
 	// 등록
 	public int insertUser(UserVo userVo) {
 		int count = -1;
 
 		this.getConnection();
-		
+
 		try {
-			
+
 			// 3. SQL문 준비 / 바인딩 / 실행
 			// SQL문 준비
 			String query = "";
@@ -87,15 +86,57 @@ public class UserDao {
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-		} 
-		
+		}
+
 		this.close();
 
 		return count;
 	}
 
-	
-	
-	
-	
+	public UserVo selectUserByIdPw(UserVo userVo) {
+		UserVo authUser = null;
+
+		//List<UserVo> userList = new ArrayList<UserVo>();
+		
+		this.getConnection();
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// SQL문 준비
+			String query = "";
+			query += " select no, name ";
+			query += " from users ";
+			query += " where id= ? ";
+			query += " adn password= ? ";
+
+			// - 바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userVo.getId());
+			pstmt.setString(2, userVo.getPw());
+
+			// - 실행
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			
+			while (rs.next()) {
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				authUser = new UserVo(no, name);
+				
+				//userList.add(authUser);
+
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		this.close();
+		
+		return authUser;
+
+	}
+
 }

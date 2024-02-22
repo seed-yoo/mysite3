@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
@@ -55,6 +56,38 @@ public class UserController extends HttpServlet {
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinOk.jsp");
 
+			
+		}else if ("loginform".equals(action)) {
+				System.out.println("user>loginform");
+
+				WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
+				
+		}else if ("login".equals(action)) {	
+			System.out.println("user>login");
+			
+			String id = request.getParameter("id");
+			String password = request.getParameter("pw");
+			
+			UserVo userVo = new UserVo(id, password);
+			
+			UserDao userDao = new UserDao();
+			UserVo authUser= userDao.selectUserByIdPw(userVo);	// id pw
+			// no name
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("authUser", authUser);
+
+			
+			
+			
+			
+			
+			
+		}else if ("modifyform".equals(action)) {
+			System.out.println("user>modifyform");
+
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+			
 		} else {
 			System.out.println("action값 확인하세여");
 		}
