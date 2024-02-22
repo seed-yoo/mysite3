@@ -29,17 +29,17 @@ public class MainController extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("MainController");
 
-		String action = request.getParameter("action");
+//		String action = request.getParameter("action");
 //		System.out.println(action);
 		
 		WebUtil.forward(request, response, "/WEB-INF/views/main/index.jsp");
 		
-		if ("indexform".equals(action)) {
-			System.out.println("index:폼");
-			
-			WebUtil.forward(request, response, "/WEB-INF/views/main/index.jsp");
-
-		} 
+//		if ("indexform".equals(action)) {
+//			System.out.println("index:폼");
+//			
+//			WebUtil.forward(request, response, "/WEB-INF/views/main/index.jsp");
+//
+//		} 
 //		else if ("insert".equals(action)) {
 //			System.out.println("insert:등록");
 //

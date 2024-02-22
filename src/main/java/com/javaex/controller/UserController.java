@@ -35,7 +35,7 @@ public class UserController extends HttpServlet {
 			System.out.println("user>joinform");
 
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinForm.jsp");
-			
+
 		} else if ("join".equals(action)) {
 			System.out.println("user>join");
 
@@ -43,7 +43,7 @@ public class UserController extends HttpServlet {
 			String password = request.getParameter("pw");
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
-			
+
 			// vo로 묶기
 			UserVo userVo = new UserVo(id, password, name, gender);
 			System.out.println(userVo.toString());
@@ -53,41 +53,74 @@ public class UserController extends HttpServlet {
 
 			// db에 저장
 			userDao.insertUser(userVo);
-			
+
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinOk.jsp");
 
-			
-		}else if ("loginform".equals(action)) {
-				System.out.println("user>loginform");
+		} else if ("loginform".equals(action)) {
+			System.out.println("user>loginform");
 
-				WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
-				
-		}else if ("login".equals(action)) {	
+			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
+
+		} else if ("login".equals(action)) {
 			System.out.println("user>login");
-			
+
 			String id = request.getParameter("id");
 			String password = request.getParameter("pw");
-			
-			UserVo userVo = new UserVo(id, password);
-			
-			UserDao userDao = new UserDao();
-			UserVo authUser= userDao.selectUserByIdPw(userVo);	// id pw
-			// no name
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("authUser", authUser);
 
-			
-			
-			
-			
-			
-			
-		}else if ("modifyform".equals(action)) {
+			UserVo userVo = new UserVo(id, password);
+
+			UserDao userDao = new UserDao();
+			UserVo authUser = userDao.selectUserByIdPw(userVo); // id pw
+			// no name
+
+			if (authUser != null) { // 로그인 성공
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authUser);
+
+				WebUtil.redirect(request, response, "/mysite3/main");
+			} else { // 로그인 실패
+				// System.out.println("로그인 실패");
+				WebUtil.redirect(request, response, "/mysite3/user?action=loginform");
+
+			}
+
+		} else if ("modifyform".equals(action)) {
 			System.out.println("user>modifyform");
 
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+
+		} else if ("logout".equals(action)) {
+			System.out.println("user>logout");
 			
+			HttpSession session = request.getSession();
+			session.invalidate();
+			
+			
+			WebUtil.redirect(request, response, "/mysite3/main");
+			
+			
+		}else if ("update".equals(action)) {
+				System.out.println("user>update");
+				
+				int no = Integer.parseInt(request.getParameter("no"));
+				String id = request.getParameter("id");
+				String password = request.getParameter("pw");
+				String name = request.getParameter("name");
+				String gender = request.getParameter("gender");
+
+				// vo로 묶기
+				UserVo userVo = new UserVo(no, id, password, name, gender);
+				System.out.println(userVo.toString());
+
+				// db관련 업무
+				UserDao userDao = new UserDao();
+
+				// db에 저장
+				userDao.updateUser(userVo);
+
+				WebUtil.redirect(request, response, "/mysite3/user?action=logout");
+
+
 		} else {
 			System.out.println("action값 확인하세여");
 		}
